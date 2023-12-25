@@ -3,10 +3,39 @@ import '../components/components.dart';
 import '../models/models.dart';
 import '../api/mock_fooderlich_service.dart';
 
-class ExploreScreen extends StatelessWidget {
+class ExploreScreen extends StatefulWidget {
+  ExploreScreen({super.key});
+
+  @override
+  State<ExploreScreen> createState() => _ExploreScreenState();
+}
+
+class _ExploreScreenState extends State<ExploreScreen> {
 // 1
   final mockService = MockFooderlichService();
-  ExploreScreen({super.key});
+  late final ScrollController _ctrl; // = ScrollController();
+
+  // This method handles the notification from the ScrollController.
+  void _scrollListener() {
+    // 1
+    if (_ctrl.offset >= _ctrl.position.maxScrollExtent &&
+        !_ctrl.position.outOfRange) {
+      print('i am at the bottom!');
+    }
+// 2
+    if (_ctrl.offset <= _ctrl.position.minScrollExtent &&
+        !_ctrl.position.outOfRange) {
+      print('i am at the top!');
+    }
+  }
+
+  @override
+  void initState() {
+    _ctrl = ScrollController();
+    _ctrl.addListener(_scrollListener);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 // 1
@@ -19,6 +48,7 @@ class ExploreScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
 // 5
           return ListView(
+            controller: _ctrl,
 // 6
             scrollDirection: Axis.vertical,
             children: [
@@ -36,5 +66,11 @@ class ExploreScreen extends StatelessWidget {
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _ctrl.removeListener(_scrollListener);
+    super.dispose();
   }
 }
