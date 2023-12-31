@@ -5,23 +5,19 @@ import 'screens/explore_screen.dart';
 import 'screens/grocery_screen.dart';
 import 'screens/recipes_screen.dart';
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
+  static List<Widget> pages = <Widget>[
+    const ExploreScreen(),
+    RecipesScreen(),
+    const GroceryScreen(),
+  ];
   const Home({super.key});
 
   @override
-  HomeState createState() => HomeState();
-}
-
-class HomeState extends State<Home> {
-  static List<Widget> pages = <Widget>[
-    ExploreScreen(),
-    RecipesScreen(),
-    GroceryScreen(),
-  ];
-
-  @override
   Widget build(BuildContext context) {
-    int _selectedIndex = Provider.of<TabManager>(context).selectedTab;
+    int _selectedIndex = Provider.of<TabManager>(
+      context,
+    ).selectedTab;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -31,11 +27,14 @@ class HomeState extends State<Home> {
       ),
       body: pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Theme.of(context).textSelectionTheme.selectionColor,
+        selectedItemColor: Theme.of(
+          context,
+        ).textSelectionTheme.selectionColor,
         currentIndex: _selectedIndex,
-        onTap: (i) {
-          Provider.of<TabManager>(context, listen: false).goToTab(i);
-        },
+        onTap: Provider.of<TabManager>(
+          context,
+          listen: false,
+        ).goToTab,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.explore),

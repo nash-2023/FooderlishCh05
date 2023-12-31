@@ -37,6 +37,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   @override
+  void dispose() {
+    _ctrl.removeListener(_scrollListener);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 // 1
     return FutureBuilder(
@@ -66,11 +72,5 @@ class _ExploreScreenState extends State<ExploreScreen> {
         }
       },
     );
-  }
-
-  @override
-  void dispose() {
-    _ctrl.removeListener(_scrollListener);
-    super.dispose();
   }
 }
