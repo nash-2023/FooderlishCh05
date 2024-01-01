@@ -90,7 +90,22 @@ class GroceryItemScreenState extends State<GroceryItemScreen> {
                   _timeOfDay.minute,
                 ),
               );
-              if (widget.isUpdating) {
+              if (_nameController.text.trim().isEmpty) {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Cation...'),
+                        content: const Text('Where is Item Name'),
+                        actions: [
+                          IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(Icons.cancel),
+                          ),
+                        ],
+                      );
+                    });
+              } else if (widget.isUpdating) {
 // 2
                 widget.onUpdate(groceryItem);
               } else {
@@ -136,6 +151,7 @@ class GroceryItemScreenState extends State<GroceryItemScreen> {
                   _timeOfDay.minute,
                 ),
               ),
+              onComplete: null,
             ),
           ],
         ),
@@ -166,7 +182,7 @@ class GroceryItemScreenState extends State<GroceryItemScreen> {
             hintText: 'E.g. Apples, Banana, 1 Bag of salt',
 // 9
             enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
+              borderSide: BorderSide(color: Color.fromARGB(255, 216, 37, 37)),
             ),
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: _currentColor),
@@ -261,7 +277,7 @@ class GroceryItemScreenState extends State<GroceryItemScreen> {
 // 7
                 final selectedDate = await showDatePicker(
                   context: context,
-                  initialDate: currentDate,
+                  initialDate: _dueDate,
                   firstDate: currentDate,
                   lastDate: DateTime(currentDate.year + 5),
                 );
@@ -298,7 +314,7 @@ class GroceryItemScreenState extends State<GroceryItemScreen> {
 // 1
                 final timeOfDay = await showTimePicker(
 // 2
-                  initialTime: TimeOfDay.now(),
+                  initialTime: _timeOfDay,
                   context: context,
                 );
 // 3

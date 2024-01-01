@@ -49,6 +49,13 @@ class GroceryTile extends StatelessWidget {
                   buildDate(),
                   const SizedBox(height: 4.0),
                   buildImportance(),
+                  // Text(
+                  //   item.importance.name.toString(),
+                  //   style: GoogleFonts.lato(
+                  //     decoration: textDecoration,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
                 ],
               ),
             ],
@@ -113,11 +120,14 @@ class GroceryTile extends StatelessWidget {
   }
 
   Widget buildCheckbox() {
-    return Checkbox(
-      // 1
-      value: item.isComplete,
-// 2
-      onChanged: onComplete,
+    return Visibility(
+      visible: (onComplete != null),
+      child: Checkbox(
+        // 1
+        value: item.isComplete,
+        // 2
+        onChanged: onComplete,
+      ),
     );
   }
 }
