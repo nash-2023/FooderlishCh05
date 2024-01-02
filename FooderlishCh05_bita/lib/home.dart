@@ -15,9 +15,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int _selectedIndex = Provider.of<TabManager>(
-      context,
-    ).selectedTab;
+    final tabManager = Provider.of<TabManager>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -25,12 +23,16 @@ class Home extends StatelessWidget {
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
-      body: pages[_selectedIndex],
+      // body: pages[_selectedIndex],
+      body: IndexedStack(
+        index: tabManager.selectedTab,
+        children: pages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Theme.of(
           context,
         ).textSelectionTheme.selectionColor,
-        currentIndex: _selectedIndex,
+        currentIndex: tabManager.selectedTab,
         onTap: Provider.of<TabManager>(
           context,
           listen: false,
